@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-
+ver="1.1"
 dir=`pwd `
 partd=/dev/block
 tools=$dir/.tools
@@ -8,7 +8,7 @@ tools=$dir/.tools
 media dispatch play $tools/menu.ogg
 
 echo
-echo 
+echo "MUNKY-TOOL VERSION$ver "
 echo
 echo "-------------------------------"
 echo "choose your munky business"
@@ -23,6 +23,10 @@ echo
 echo "4) logcat"
 echo
 echo "5) backup userdata"
+echo
+echo "-------------------------------"
+echo
+echo "89) go out for a rip (video for the menu song)"
 echo
 echo "99) exit"
 echo
@@ -54,15 +58,19 @@ output="$type.img"
 			if [ ! -z $partname ]
 				then
 					
-					echo "Copying system. This could take awhile. Do not close terminal."
+					echo "Copying $type. This could take awhile. Do not close terminal."
+					
+						media dispatch play $tools/menu.ogg
 					
 						dd if=$partd/$partname of=/sdcard/$output
 
 echo
-echo 
+echo 	
 echo
 echo
 						echo "Your $type partition has been copied to the root of your sd card"
+						
+						media dispatch stop
 
 			else 
 echo
@@ -278,15 +286,19 @@ output="$type.img"
 			if [ ! -z $partname ]
 				then
 					
-					echo "Copying system. This could take awhile. Do not close terminal."
+					echo "Copying $type. This could take awhile. Do not close terminal."
+					
+					media dispatch play $tools/menu.ogg
 					
 						dd if=$partd/$partname of=/sdcard/$output
 
 echo
-echo 
+echo 					  
 echo
 echo
 						echo "Your $type partition has been copied to the root of your sd card"
+						
+						media dispatch stop
 
 			else 
 echo
@@ -333,6 +345,17 @@ read
 						./munky-tool
 						
 							;;
+							
+							
+	
+	89)
+	
+	
+	./adb shell am start -a android.intent.action.VIEW -d 'http://www.youtube.com/watch?v=F-glHAzXi_M'
+	
+	./munky-tool
+	
+	;;
 
 		
 		
