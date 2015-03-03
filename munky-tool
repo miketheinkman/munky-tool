@@ -1,0 +1,276 @@
+#!/system/bin/sh
+
+
+dir=`pwd `
+partd=/dev/block
+tools=$dir/.tools
+
+media dispatch play $tools/menu.ogg
+
+echo
+echo 
+echo
+echo "-------------------------------"
+echo "choose your munky business"
+echo "-------------------------------"
+echo
+echo "1) backup system.img"
+echo
+echo "2) backup boot.img"
+echo
+echo "3) backup efs partitions"
+echo
+echo "4) logcat"
+echo
+echo "99) exit"
+echo
+echo "-------------------------------"
+echo "what do you want to do?"
+echo "-------------------------------"
+echo
+
+read n 
+
+media dispatch stop
+
+echo
+echo
+
+
+	
+
+		case $n in
+
+	
+	1)
+
+type="system"
+output="$type.img"
+
+		partname=`ls -al /dev/block/platform/*/by-name | grep -i $type | cut -d'/' -f4 `
+
+			if [ ! -z $partname ]
+				then
+					
+					echo "Copying system. This could take awhile. Do not close terminal."
+					
+						dd if=$partd/$partname of=/sdcard/$output
+
+echo
+echo 
+echo
+echo
+						echo "Your $type partition has been copied to the root of your sd card"
+
+			else 
+echo
+echo 
+echo
+echo
+						echo "Your partitions are named in a way that prevents munky-tool from safely identifying which partition contains your $type. Do you know which partition your $type is in? [ y or n ]?"
+
+			read yorn
+
+				if [ $yorn = "y" ]
+					then
+			
+						echo
+echo 
+echo
+echo
+						echo "type the name of your $type partition. ex 'mmcblk0p14'" 
+
+							read name 
+								
+								echo "Copying system. This could take awhile. Do not close terminal."
+								
+									dd if=$partd/$name of=/sdcard/$output
+
+					elif [ $yorn = "n" ]
+						then
+
+							echo
+echo 
+echo
+echo "Do some research about the partition names of your device. ENTER to return to menu"
+read 
+	./munky-tool
+							
+		echo
+
+
+			fi
+				fi
+				
+					cd $dir
+						
+						./munky-tool
+						
+							;;
+
+
+
+
+
+
+
+	2)
+
+type="boot"
+output="$type.img"
+
+		partname=`ls -al /dev/block/platform/*/by-name | grep -v aboot | grep -i boot | cut -d'/' -f4 `
+
+			if [ ! -z $partname ]
+				then
+
+					dd if=$partd/$partname of=/sdcard/$output
+
+echo
+echo 
+echo
+echo
+						echo "Your $type partition has been copied to the root of your sd card"
+
+			else 
+echo
+echo 
+echo
+echo
+						echo "Your partitions are named in a way that prevents munky-tool from safely identifying which partition contains your $type. Do you know which partition your $type is in? [ y or n ]?"
+
+			read yorn
+
+				if [ $yorn = "y" ]
+					then
+			
+						echo
+echo 
+echo
+echo
+						echo "type the name of your $type partition. ex 'mmcblk0p14'" 
+
+							read name 
+									
+								dd if=$partd/$name of=/sdcard/$output
+
+					elif [ $yorn = "n" ]
+						then
+
+							echo
+echo 
+echo
+echo "Do some research about the partition names of your device. ENTER to return to menu"
+read 
+	./munky-tool
+							
+		echo
+
+
+			fi
+				fi
+				
+					cd $dir
+						
+						./munky-tool
+
+								;;
+						
+	3)
+	
+type="modemst1"
+type2="modemst2"
+output="$type.bin"
+output2="$type2.bin"
+
+		partname=`ls -al /dev/block/platform/*/by-name | grep -i $type | cut -d'/' -f4 `
+
+			if [ ! -z $partname ]
+				then
+
+					dd if=$partd/$partname of=/sdcard/$output
+					
+		partname2=`ls -al /dev/block/platform/*/by-name | grep -i $type2 | cut -d'/' -f4 `
+
+			if [ ! -z $partname2 ]
+				then
+
+					dd if=$partd/$partname2 of=/sdcard/$output2			
+
+echo
+echo 
+echo
+echo
+						echo "Your $type and $type2 partition has been copied to the root of your sd card"
+
+			else 
+echo
+echo 
+echo
+echo
+						echo "Your partitions are named in a way that prevents munky-tool from safely identifying which partition contains your $type. Do you know which partition your $type is in? [ y or n ]?"
+
+			read yorn
+
+				if [ $yorn = "y" ]
+					then
+			
+						echo
+echo 
+echo
+echo
+						echo "type the name of your $type partition. ex 'mmcblk0p14'" 
+
+							read name 
+									
+								dd if=$partd/$name of=/sdcard/$output
+								
+									echo "type the name of your $type2 partition. ex 'mmcblk0p14'"
+								
+										read name 
+									
+											dd if=$partd/$name of=/sdcard/$output2
+
+					elif [ $yorn = "n" ]
+						then
+
+							echo
+echo 
+echo
+echo "Do some research about the partition names of your device. ENTER to return to menu"
+read 
+	./munky-tool
+							
+		echo
+
+
+			fi
+				fi
+					fi	
+						
+						cd $dir
+						
+							./munky-tool
+						
+								;;
+
+						
+	4)
+	
+		echo "close terminal when finished"
+		
+			logcat -C
+		
+		
+		;;
+		
+		
+	99)
+	
+		exit 0
+		
+			;;
+
+
+
+esac
