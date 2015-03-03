@@ -18,9 +18,11 @@ echo "1) backup system.img"
 echo
 echo "2) backup boot.img"
 echo
-echo "3) backup efs partitions"
+echo "3) backup efs partitions [modemst1 & modemst2]"
 echo
 echo "4) logcat"
+echo
+echo "5) backup userdata"
 echo
 echo "99) exit"
 echo
@@ -263,6 +265,75 @@ read
 		
 		
 		;;
+		
+		
+	5)
+	
+	
+type="userdata"
+output="$type.img"
+
+		partname=`ls -al /dev/block/platform/*/by-name | grep -i $type | cut -d'/' -f4 `
+
+			if [ ! -z $partname ]
+				then
+					
+					echo "Copying system. This could take awhile. Do not close terminal."
+					
+						dd if=$partd/$partname of=/sdcard/$output
+
+echo
+echo 
+echo
+echo
+						echo "Your $type partition has been copied to the root of your sd card"
+
+			else 
+echo
+echo 
+echo
+echo
+						echo "Your partitions are named in a way that prevents munky-tool from safely identifying which partition contains your $type. Do you know which partition your $type is in? [ y or n ]?"
+
+			read yorn
+
+				if [ $yorn = "y" ]
+					then
+			
+						echo
+echo 
+echo
+echo
+						echo "type the name of your $type partition. ex 'mmcblk0p14'" 
+
+							read name 
+								
+								echo "Copying system. This could take awhile. Do not close terminal."
+								
+									dd if=$partd/$name of=/sdcard/$output
+
+					elif [ $yorn = "n" ]
+						then
+
+							echo
+echo 
+echo
+echo "Do some research about the partition names of your device. ENTER to return to menu"
+read 
+	./munky-tool
+							
+		echo
+
+
+			fi
+				fi
+				
+					cd $dir
+						
+						./munky-tool
+						
+							;;
+
 		
 		
 	99)
