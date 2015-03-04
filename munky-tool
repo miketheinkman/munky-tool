@@ -24,6 +24,8 @@ echo "4) logcat"
 echo
 echo "5) backup userdata"
 echo
+echo "6) backup contacts"
+echo
 echo "-------------------------------"
 echo
 echo "89) go out for a rip (video for the menu song)"
@@ -346,7 +348,36 @@ read
 						
 							;;
 							
-							
+
+	6) 
+	
+		mkdir /sdcard/contact-backups
+	
+			cp /data/data/com.android.providers.contacts/databases/*.db* /sdcard/contact-backups/
+			
+			echo "backups are in /sdcard/contact-backups. Press ENTER to return to menu"
+	
+				cd $dir
+				
+				./munky-tool
+	
+	                                 ;;
+	                                 
+	                                 
+	7)
+	   
+	   echo "place backups in /sdcard/contact-backups, and press ENTER"
+	   
+	   read
+	
+	
+		cp -f /sdcard/contact-backups/*.db* /data/data/com.android.providers.contacts/databases/
+		
+				cd $dir
+			
+				./munky-tool
+	
+				 	;;
 	
 	89)
 	
