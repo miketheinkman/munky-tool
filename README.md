@@ -1,7 +1,7 @@
 # munky-tool
 Munky-tool is an on-board android utility that runs in Terminal Emulator
 
-Munky-tool v1.0 supports dumping system, efs, and boot partitions for backup or use in kitchen. It also supports logcat. 
+Munky-tool v1.0 supports dumping system, efs, and boot partitions for backup or use in kitchen. It also supports contacts backup and restore, logcat, and it goes out for a rip.
 
 Munky-tool will identify and copy most partitions, however some devices have weird partition names. I will add support for more devices, and possibly more features as time goes on. 
 
